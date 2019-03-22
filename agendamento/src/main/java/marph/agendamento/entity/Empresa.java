@@ -10,27 +10,29 @@ public class Empresa {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	
 	private String nome;
 	
 	private String descricao;
 	
+	private String logo;
+	
 	public Empresa() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Empresa(Long id, String nome, String descricao) {
+	public Empresa(Integer id, String nome, String descricao) {
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -50,4 +52,11 @@ public class Empresa {
 		this.descricao = descricao;
 	}
 	
+	public String getLogo() {
+		return logo;
+	}
+	
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
 }
