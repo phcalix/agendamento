@@ -1,0 +1,36 @@
+<html>
+<head>
+    <script>
+        function resposta() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    imp = document.getElementById("saida");
+                    imp.innerHTML = "<br/>";
+                    var resposta = JSON.parse(xhttp.response);
+                    for(i = 0; i < resposta.length; i++) {
+                    	imp.innerHTML = imp.innerHTML + 
+                        	resposta[i].id + " - " + resposta[i].nome + "<br/>"; 
+                    }
+                    imp.innerHTML = imp.innerHTML + "</table>";
+                }
+            };
+            var e = document.getElementById("empresas");
+            var idEmpresa = e.options[e.selectedIndex].value;
+            xhttp.open("GET", 'http://localhost:8080/empresas', true);
+            xhttp.send();        
+        }
+    </script>
+</head>
+<body>
+    <h3>Empresas</h3>
+    <select id="empresas">
+        <option value="1">Nome 01</option>
+        <option value="2">Nome 02</option>
+        <option value="3">Nome 03</option>
+        <option value="4">Nome 04</option>
+    </select>
+    <button onclick="resposta()">Buscar</button>
+    <div id="saida"></div>
+</body>
+</html>
