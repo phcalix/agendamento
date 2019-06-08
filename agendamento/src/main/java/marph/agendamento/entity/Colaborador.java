@@ -1,15 +1,18 @@
 package marph.agendamento.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
-public class Empresa {
+@Table(name="Colaborador")
+public class Colaborador {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,13 +22,13 @@ public class Empresa {
 	
 	private String descricao;
 	
-	@OneToMany(mappedBy="empresa")
-	private List<Filial> filiais;
+	@ManyToMany(mappedBy="colaboradores")
+	private List<Filial> filiais = new ArrayList<Filial>();
 	
-	public Empresa() {
+	public Colaborador() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -49,11 +52,11 @@ public class Empresa {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
+
 	public List<Filial> getFiliais() {
 		return filiais;
 	}
-	
+
 	public void setFiliais(List<Filial> filiais) {
 		this.filiais = filiais;
 	}
