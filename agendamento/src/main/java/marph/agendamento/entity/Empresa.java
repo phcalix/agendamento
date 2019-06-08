@@ -57,5 +57,4 @@ public class Empresa {
 	public void setFiliais(List<Filial> filiais) {
 		this.filiais = filiais;
 	}
-	
 }
