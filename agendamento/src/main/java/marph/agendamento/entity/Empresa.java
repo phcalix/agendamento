@@ -1,11 +1,12 @@
 package marph.agendamento.entity;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -19,8 +20,9 @@ public class Empresa {
 	
 	private String descricao;
 	
-	@OneToMany(mappedBy="empresa")
-	private List<Filial> filiais;
+	@OneToMany
+	@JoinColumn(name="empresa_filial")
+	private Set<Filial> filiais;
 	
 	public Empresa() {
 		// TODO Auto-generated constructor stub
@@ -50,11 +52,11 @@ public class Empresa {
 		this.descricao = descricao;
 	}
 	
-	public List<Filial> getFiliais() {
+	public Set<Filial> getFiliais() {
 		return filiais;
 	}
 	
-	public void setFiliais(List<Filial> filiais) {
+	public void setFiliais(Set<Filial> filiais) {
 		this.filiais = filiais;
 	}
 }

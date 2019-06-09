@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -23,11 +22,7 @@ public class Filial {
 	
 	private String nome;
 	
-	private String descricao;
-	
-	@ManyToOne
-	@JoinColumn(name="empresa_id", nullable=false)
-	private Empresa empresa;
+	private String descricao;	
 	
 	@ManyToMany
 	@JoinTable(
@@ -62,14 +57,6 @@ public class Filial {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}
-	
-	public Empresa getEmpresa() {
-		return empresa;
-	}
-	
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
 	}
 	
 	public List<Colaborador> getColaboradores() {

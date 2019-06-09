@@ -1,6 +1,7 @@
 package marph.agendamento.controller;
 
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import marph.agendamento.entity.Colaborador;
@@ -19,6 +21,7 @@ import marph.agendamento.repository.EmpresaRepository;
 import marph.agendamento.repository.FilialRepository;
 
 @RestController
+@RequestMapping (value="agendamento/api/")
 public class AgendamentoController {
 	
 	@Autowired private EmpresaRepository empresaRepository;
@@ -67,7 +70,7 @@ public class AgendamentoController {
 		return new ResponseEntity<Filial>(filial.get(), HttpStatus.OK);
 	}
 	
-	@PostMapping("/filial/nova/para/empresa")
+	@PostMapping("/filial/nova/para/empresa/{codigoEmpresa}")
 	public ResponseEntity<HttpStatus> inserirFilialPorEmpresa(@PathVariable("codigoEmpresa") Long codigoEmpresa, 
 			@RequestBody Filial filial) {
 		
@@ -78,14 +81,26 @@ public class AgendamentoController {
 		}
 		
 		try {
+			Filial filialSalva = filialRepository.save(filial);
+			
 			Empresa empr = empresa.get();
-			empr.getFiliais().add(filial);
+			empr.getFiliais().add(filialSalva);
 			empresaRepository.save(empr);
 			
 			return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
 		} catch(Exception e) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@GetMapping("/filiais/por/empresa/{codigoEmpresa}")
+	public ResponseEntity<Set<Filial>> obtemFiliaisPorEmpresa(@PathVariable("codigoEmpresa") Long codigoEmpresa) {
+		Optional<Empresa> empresa = empresaRepository.findById(codigoEmpresa);
+		
+		if(empresa == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Set<Filial>>(empresa.get().getFiliais(), HttpStatus.OK);
 	}
 	
 	// COLABORADOR
