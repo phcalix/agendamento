@@ -119,7 +119,7 @@ public class AgendamentoController {
 		return new ResponseEntity<Colaborador>(colaborador.get(), HttpStatus.OK);
 	}
 	
-	@PostMapping("/colaborador/nova/para/filial")
+	@PostMapping("/colaborador/novo/para/filial/{codigoFilial}")
 	public ResponseEntity<HttpStatus> inserirFilialPorEmpresa(@PathVariable("codigoFilial") Long codigoFilial, 
 			@RequestBody Colaborador colaborador) {
 		
@@ -130,8 +130,10 @@ public class AgendamentoController {
 		}
 		
 		try {
+			Colaborador colaboradorSalvo = colaboradorRepository.save(colaborador);
+			
 			Filial fll = filial.get();
-			fll.getColaboradores().add(colaborador);
+			fll.getColaboradores().add(colaboradorSalvo);
 			filialRepository.save(fll);
 			
 			return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
